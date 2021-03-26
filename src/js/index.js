@@ -4,22 +4,35 @@
   {
     questionContent: "Some random question",
     /*     choices: ["answer #1", "answer #2", "answer #3", "answer #4"],
-    correctChoice: "answer #2", */
+    correctChoice: "answer #1", */
     choices: [
       {
         choice: "answer #1",
         correct: true,
-        value: -3,
+        value: +1,
       },
       {
         choice: "answer #2",
         correct: false,
+        value: -1,
+      },
+      {
+        choice: "answer #3",
+        correct: false,
+        value: -1,
+      },
+      {
+        choice: "answer #4",
+        correct: false,
+        value: -1,
       },
     ],
   },
 ];
 
 //listen for start event "click" or "page load"
+
+document.getElementById('btn').addEventListener('click')
 
 //display question
 
