@@ -442,63 +442,131 @@ id) /*: string*/
 }
 
 },{}],"3L8AI":[function(require,module,exports) {
- function populate() {
-    if(quiz.isEnded()) {
-        showScores();
+var _questionJs = require("./question.js");
+var _quizJs = require("./quiz.js");
+function populate() {
+  if (quiz.isEnded()) {
+    showScores();
+  } else {
+    // show question
+    const element = document.getElementById("question");
+    element.innerHTML = quiz.getQuestionIndex().text;
+    // show options
+    const choices = quiz.getQuestionIndex().choices;
+    for (var i = 0; i < choices.length; i++) {
+      const element = document.getElementById("choice" + i);
+      element.innerHTML = choices[i];
+      guess("btn" + i, choices[i]);
     }
-    else {
-        // show question
-        const element = document.getElementById("question");
-        element.innerHTML = quiz.getQuestionIndex().text;
-  
-        // show options
-        const choices = quiz.getQuestionIndex().choices;
-        for(const i = 0; i < choices.length; i++) {
-            const element = document.getElementById("choice" + i);
-            element.innerHTML = choices[i];
-            guess("btn" + i, choices[i]);
-        }
-  
-        showProgress();
-    }
+    showProgress();
+  }
+}
+function guess(id, guess) {
+  const button = document.getElementById(id);
+  button.onclick = function () {
+    quiz.guess(guess);
+    populate();
   };
-   
-  function guess(id, guess) {
-    const button = document.getElementById(id);
-    button.onclick = function() {
-        quiz.guess(guess);
-        populate();
-    }
-  };
-  
-  function showProgress() {
-    const currentQuestionNumber = quiz.questionIndex + 1;
-    const element = document.getElementById("progress");
-    element.innerHTML = "Question " + currentQuestionNumber + " of " + quiz.questions.length;
-  };
-  
-  function showScores() {
-    const gameOverHTML = "<h1>Result</h1>";
-    gameOverHTML += "<h2 id='score'> Your scores: " + quiz.score + "</h2>";
-    const element = document.getElementById("quiz");
-    element.innerHTML = gameOverHTML;
-  };
-  
-  // create questions
-  const questions = [
-    new Question("What was the first commercially successful video game? ", ["Tank", "Pac man","Pong", "Donkey Kong"], "Pong"),
-    new Question("What is the best selling videogame of all time? ", ["Mario Kart", "Minecraft", "PUB G", "GTA V"], "Minecraft"),
-    new Question("What year was the Super Nintendo Entertainment System (SNES) released? ", ["1990", "2010","1987", "1996"], "1990"),
-    new Question("What is the highest-selling gaming console to date? ", ["Xbox 360", "Nintendo Gamecube", "Nintendo Wii", "PS 2"], "PS 2"),
-    new Question("What year was Nintendo founded? ", ["1889", "1907", "1883", "1896"], "1889"),
-    
-  ];
-  // create quiz
-  const quiz = new Quiz(questions);
-  
-  // display quiz
-  populate();
+}
+function showProgress() {
+  const currentQuestionNumber = quiz.questionIndex + 1;
+  const element = document.getElementById("progress");
+  element.innerHTML = "Question " + currentQuestionNumber + " of " + quiz.questions.length;
+}
+function showScores() {
+  var gameOverHTML = "<h1>Result</h1>";
+  gameOverHTML += "<h2 id='score'> Your scores: " + quiz.score + "</h2>";
+  var element = document.getElementById("quiz");
+  element.innerHTML = gameOverHTML;
+}
+// create questions
+const questions = [new _questionJs.Question("What was the first commercially successful video game? ", ["Tank", "Pac man", "Pong", "Donkey Kong"], "Pong"), new _questionJs.Question("What is the best selling videogame of all time? ", ["Mario Kart", "Minecraft", "PUB G", "GTA V"], "Minecraft"), new _questionJs.Question("What year was the Super Nintendo Entertainment System (SNES) released? ", ["1990", "2010", "1987", "1996"], "1990"), new _questionJs.Question("What is the highest-selling gaming console to date? ", ["Xbox 360", "Nintendo Gamecube", "Nintendo Wii", "PS 2"], "PS 2"), new _questionJs.Question("What year was Nintendo founded? ", ["1889", "1907", "1883", "1896"], "1889")];
+// create quiz
+const quiz = new _quizJs.Quiz(questions);
+// display quiz
+populate();
 
-},{}]},["21c8X","3L8AI"], "3L8AI", "parcelRequired264")
+},{"./question.js":"5WIEj","./quiz.js":"201oO"}],"5WIEj":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "Question", function () {
+  return Question;
+});
+function Question(text, choices, answer) {
+  this.text = text;
+  this.choices = choices;
+  this.answer = answer;
+}
+Question.prototype.isCorrectAnswer = function (choice) {
+  return this.answer === choice;
+};
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}],"5gA8y":[function(require,module,exports) {
+"use strict";
+
+exports.interopDefault = function (a) {
+  return a && a.__esModule ? a : {
+    default: a
+  };
+};
+
+exports.defineInteropFlag = function (a) {
+  Object.defineProperty(a, '__esModule', {
+    value: true
+  });
+};
+
+exports.exportAll = function (source, dest) {
+  Object.keys(source).forEach(function (key) {
+    if (key === 'default' || key === '__esModule') {
+      return;
+    } // Skip duplicate re-exports when they have the same value.
+
+
+    if (key in dest && dest[key] === source[key]) {
+      return;
+    }
+
+    Object.defineProperty(dest, key, {
+      enumerable: true,
+      get: function () {
+        return source[key];
+      }
+    });
+  });
+  return dest;
+};
+
+exports.export = function (dest, destName, get) {
+  Object.defineProperty(dest, destName, {
+    enumerable: true,
+    get: get
+  });
+};
+},{}],"201oO":[function(require,module,exports) {
+var _parcelHelpers = require("@parcel/transformer-js/lib/esmodule-helpers.js");
+_parcelHelpers.defineInteropFlag(exports);
+_parcelHelpers.export(exports, "Quiz", function () {
+  return Quiz;
+});
+function Quiz(questions) {
+  this.score = 0;
+  this.questions = questions;
+  this.questionIndex = 0;
+}
+Quiz.prototype.getQuestionIndex = function () {
+  return this.questions[this.questionIndex];
+};
+Quiz.prototype.guess = function (answer) {
+  if (this.getQuestionIndex().isCorrectAnswer(answer)) {
+    this.score++;
+  }
+  this.questionIndex++;
+};
+Quiz.prototype.isEnded = function () {
+  return this.questionIndex === this.questions.length;
+};
+
+},{"@parcel/transformer-js/lib/esmodule-helpers.js":"5gA8y"}]},["21c8X","3L8AI"], "3L8AI", "parcelRequired264")
 
 //# sourceMappingURL=index.2142d36c.js.map
