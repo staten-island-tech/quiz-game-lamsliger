@@ -453,7 +453,7 @@ function populate() {
     element.innerHTML = quiz.getQuestionIndex().text;
     // show options
     const choices = quiz.getQuestionIndex().choices;
-    for (var i = 0; i < choices.length; i++) {
+    for (let i = 0; i < choices.length; i++) {
       const element = document.getElementById("choice" + i);
       element.innerHTML = choices[i];
       guess("btn" + i, choices[i]);
@@ -474,9 +474,9 @@ function showProgress() {
   element.innerHTML = "Question " + currentQuestionNumber + " of " + quiz.questions.length;
 }
 function showScores() {
-  var gameOverHTML = "<h1>Result</h1>";
+  const gameOverHTML = "<h1>Result</h1>";
   gameOverHTML += "<h2 id='score'> Your scores: " + quiz.score + "</h2>";
-  var element = document.getElementById("quiz");
+  const element = document.getElementById("quiz");
   element.innerHTML = gameOverHTML;
 }
 // create questions

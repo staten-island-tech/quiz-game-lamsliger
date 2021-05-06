@@ -11,7 +11,7 @@ function populate() {
 
     // show options
     const choices = quiz.getQuestionIndex().choices;
-      let i = 0; i < choices.length; i++
+   for (let i = 0; i < choices.length; i++) {
       const element = document.getElementById("choice" + i);
       element.innerHTML = choices[i];
       guess("btn" + i, choices[i]);
@@ -19,7 +19,7 @@ function populate() {
 
     showProgress();
   }
-
+}
 
 function guess(id, guess) {
   const button = document.getElementById(id);
