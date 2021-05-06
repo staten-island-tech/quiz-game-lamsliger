@@ -11,7 +11,7 @@ function populate() {
 
     // show options
     const choices = quiz.getQuestionIndex().choices;
-    for (var i = 0; i < choices.length; i++) {
+      let i = 0; i < choices.length; i++
       const element = document.getElementById("choice" + i);
       element.innerHTML = choices[i];
       guess("btn" + i, choices[i]);
@@ -19,7 +19,7 @@ function populate() {
 
     showProgress();
   }
-}
+
 
 function guess(id, guess) {
   const button = document.getElementById(id);
@@ -37,9 +37,9 @@ function showProgress() {
 }
 
 function showScores() {
-  var gameOverHTML = "<h1>Result</h1>";
+  const gameOverHTML = "<h1>Result</h1>";
   gameOverHTML += "<h2 id='score'> Your scores: " + quiz.score + "</h2>";
-  var element = document.getElementById("quiz");
+  const element = document.getElementById("quiz");
   element.innerHTML = gameOverHTML;
 }
 
